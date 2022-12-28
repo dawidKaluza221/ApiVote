@@ -4,10 +4,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("VoteAppDB"));
+//var connectionString = builder.Configuration.GetConnectionString("DefaultString");
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApiContext>(opt => opt.UseSqlServer(ConnectionString));
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle5
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
