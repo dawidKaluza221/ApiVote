@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ApiVote.Data;
-using ApiVote.Data;
 using ApiVote.UserInfo;
 
 namespace ApiVote.Controllers
@@ -17,9 +16,9 @@ namespace ApiVote.Controllers
             _context = context;
         }
 
-        //Create/Edit
+        //CreateUser/EditUser
         [HttpPost]
-        public ActionResult<User> CreateEdit(User user)
+        public ActionResult<User> CreateEditUser(User user)
         {
             if (user.Id == 0)
             {
@@ -36,6 +35,35 @@ namespace ApiVote.Controllers
             }
             _context.SaveChanges();
             return Ok(user);
+        }
+        //CreatePoll/EditPoll
+        [HttpPost]
+        public ActionResult<OwnerPoll> CreateEditPoll(OwnerPoll ownerPoll)
+        {
+            if (_context.Users.Find(ownerPoll.ID_User)==null) 
+            {
+                return NotFound("Error you don't have souch User ID in database");
+            }
+            if (ownerPoll.ID_Poll == 0)
+            {
+                _context.OwnerPolls.Add(ownerPoll);
+            }
+            else
+            {
+                if (_context.OwnerPolls.Find(ownerPoll.ID_Poll) == null)
+                {
+                    return NotFound("Error you don't have souch Poll in database use ID =0 to create ");
+                }
+                var OwnerInDb = _context.OwnerPolls.Find(ownerPoll.ID_Poll);
+                
+                if (OwnerInDb == null)
+                {
+                    return NotFound();
+                }
+                OwnerInDb = ownerPoll;
+            }
+            _context.SaveChanges();
+            return Ok(ownerPoll);
         }
         //Get/user/{id}
         [HttpGet("{id}")]
