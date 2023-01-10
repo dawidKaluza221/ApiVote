@@ -7,6 +7,7 @@ namespace ApiVote.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<OwnerPoll> OwnerPolls { get; set; }
+        public DbSet<PoolQuestion> PoolQuestions { get; set; }
 
         public ApiContext(DbContextOptions<ApiContext> options) : base(options) 
         {

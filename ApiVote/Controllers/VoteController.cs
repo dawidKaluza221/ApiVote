@@ -36,11 +36,26 @@ namespace ApiVote.Controllers
             _context.SaveChanges();
             return Ok(user);
         }
+        //CreateQuestion/CreateQuestion
+        [HttpPost]
+        public ActionResult<PoolQuestion> CreateQuestion(PoolQuestion poolQuestion)
+        {
+            if (_context.OwnerPolls.Find(poolQuestion.ID_Poll) == null)
+            {
+                return NotFound("Error you don't have souch Poll ID in database");
+            }
+            if (poolQuestion.ID_Question == 0)
+            {
+                _context.PoolQuestions.Add(poolQuestion);
+            }
+           _context.SaveChanges();
+            return Ok(poolQuestion);
+        }
         //CreatePoll/EditPoll
         [HttpPost]
         public ActionResult<OwnerPoll> CreateEditPoll(OwnerPoll ownerPoll)
         {
-            if (_context.Users.Find(ownerPoll.ID_User)==null) 
+            if (_context.Users.Find(ownerPoll.ID_User) == null) 
             {
                 return NotFound("Error you don't have souch User ID in database");
             }
@@ -52,7 +67,7 @@ namespace ApiVote.Controllers
             {
                 if (_context.OwnerPolls.Find(ownerPoll.ID_Poll) == null)
                 {
-                    return NotFound("Error you don't have souch Poll in database use ID =0 to create ");
+                    return NotFound("Error you don't have souch Poll in database use ID = 0 to create ");
                 }
                 var OwnerInDb = _context.OwnerPolls.Find(ownerPoll.ID_Poll);
                 
