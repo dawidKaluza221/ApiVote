@@ -2,7 +2,7 @@
 
 namespace ApiVote.UserInfo
 {
-    public class PoolQuestion
+    public class PoolQuestions
     {
         [Key]
         public int ID_Question { get; set; }

@@ -38,7 +38,7 @@ namespace ApiVote.Controllers
         }
         //CreateQuestion/CreateQuestion
         [HttpPost]
-        public ActionResult<PoolQuestion> CreateQuestion(PoolQuestion poolQuestion)
+        public ActionResult<PoolQuestions> CreateQuestion(PoolQuestions poolQuestion)
         {
             if (_context.OwnerPolls.Find(poolQuestion.ID_Poll) == null)
             {
@@ -46,7 +46,7 @@ namespace ApiVote.Controllers
             }
             if (poolQuestion.ID_Question == 0)
             {
-                _context.PoolQuestions.Add(poolQuestion);
+                _context.PoolQuestion.Add(poolQuestion);
             }
            _context.SaveChanges();
             return Ok(poolQuestion);
